@@ -18,7 +18,7 @@ Port: 8306
 User: root
 PW: secret
 
-After running the migrate command above, it should create the `craft` database. If not, just connect to local hose and create the database manually.
+After running the migrate command above, it should create the `craft` database. If not, just connect to localhost and create the database manually.
 
 # Lumen PHP Framework
 
