@@ -1,0 +1,59 @@
+version: '2'
+
+services:
+  web:
+    build:
+      context: ./docker/web
+      dockerfile: ./Dockerfile
+    volumes:
+      - ./:/var/www
+    ports:
+      - "8000:80"
+    links:
+      - php
+    networks:
+      - pr-network
+  php:
+    build:
+      context: ./docker/app
+      dockerfile: ./Dockerfile
+    volumes:
+      - ./:/var/www
+    links:
+      - redis
+      - db
+    environment:
+      - DB_PORT=3306
+      - DB_HOST=db
+    networks:
+        - pr-network
+  db:
+    build:
+      context: ./docker/db
+      dockerfile: ./Dockerfile
+    volumes:
+      - ./docker/data/mariadb:/var/lib/mysql
+    ports:
+      - "8306:3306"
+    command: ["mysqld", "--user=mysql", "--lower_case_table_names=1"]
+    environment:
+      MYSQL_DATABASE: craft
+      MYSQL_USER: user
+      MYSQL_PASSWORD: secret
+      MYSQL_ROOT_PASSWORD: secret
+    networks:
+      - pr-network
+  redis:
+    image: redis:4.0.5-alpine
+    command: ["redis-server", "--appendonly", "yes"]
+    hostname: redis
+    ports:
+      - "6382:6379"
+    networks:
+        - pr-network
+networks:
+    pr-network:
+        ipam:
+            driver: default
+            config:
+                - subnet: 10.10.21.0/24
