@@ -12,6 +12,8 @@ If a .env file doesn't exist, then create one
 
 `php artisan migrate`
 
+`php artisan create:test-world`
+
 # Database Management
 Host: localhost
 Port: 8306

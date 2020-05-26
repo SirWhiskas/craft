@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateWorldsTable extends Migration
+class CreateRegionsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,13 +13,12 @@ class CreateWorldsTable extends Migration
      */
     public function up()
     {
-        Schema::create('worlds', function (Blueprint $table) {
+        Schema::create('regions', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->integer('owner_id');
             $table->string('name');
-            $table->enum('status', ['active', 'inactive']);
+            $table->text('description');
             $table->timestamps();
-            $table->softDeletes();
         });
     }
 
@@ -30,6 +29,6 @@ class CreateWorldsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('worlds');
+        Schema::dropIfExists('regions');
     }
 }
